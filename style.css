@@ -20,7 +20,7 @@ body {
   box-sizing: border-box;
   border-radius: 30px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  background: linear-gradient(to bottom, #FE3C72, #FFFFFF);
+  background: linear-gradient(to bottom, #fd6c95, #FFFFFF);
 }
 
 .card-container {
