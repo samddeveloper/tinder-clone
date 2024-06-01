@@ -1,94 +1,130 @@
+document.addEventListener('DOMContentLoaded', () => {
+    user(); // Call the user function once the page has loaded
+  });
 
-const cardContainer = document.querySelector(".card-container");
-const nextButton = document.querySelector(".next");
-const likeButton = document.querySelector('.like');
+let userDataArray = []; // Array to store user data
+let userCount = 0; // Counter for the number of times the user function is called
+
+const img = document.getElementById('profil')
+const name = document.getElementById('name')
+const age = document.getElementById('age')
+const from = document.getElementById('from')
+const like = document.getElementById('heart')
+const dislike = document.getElementById('x')
+const superLike = document.getElementById ('star')
+const rewind = document.getElementById ('repeat')
+const matchImg = document.querySelector ('.match');
 const container = document.querySelector('.container');
-const matchElement = document.querySelector('.match');
-const matchImage = matchElement.querySelector('img');
+const matchCounter = document.getElementById( 'matches-count' )
+let matchesCount = 0;
 
+const user = async() => {
 
-const createCard = (person) => {
-    
-    const imgContainer = document.querySelector(".img-container");
-    const textContainer = document.querySelector(".text-container");
-    
-    
-    const img = document.createElement("img");
-    img.classList.add("card-img");
-    img.src = person.picture.large;
-  
-    
-    const name = `${person.name.first} ${person.name.last}`;
-    const age = `${person.dob.age}`;
-    const location = `${person.location.country},${person.location.city} `;
+    const data = await fetch('https://randomuser.me/api/')
+    const res = await data.json()
+    const userData = res.results [0]
 
-    
-    
-    imgContainer.innerHTML = "";
-    imgContainer.appendChild(img);
-    
-    textContainer.innerHTML = "";
-    textContainer.innerHTML = `<p class="card-title">${name}</p><p class="age">Age: ${age}</p><p class="card-location">From: ${location}</p>`;
-  };
+     // Save the current user data to the array
+    userDataArray.push(userData);
 
+    img.src = userData.picture.large;
+    name.textContent =  `${userData.name.first} ${userData.name.last}`
+    age.textContent= `Age : ${userData.dob.age}`
+    from.textContent = `From : ${ userData.location.city}, ${userData.location.country}`
+      
+    console.log(userData)
 
-const fetchData = async () => {
-  try {
-    const response = await fetch("https://randomuser.me/api/");
-    const data = await response.json();
-    const person = data.results[0];
-    createCard(person);
+    userCount++;
     
-    nextButton.disabled = true;
-    setTimeout(() => {
-      nextButton.disabled = false;
-    }, 1000);
-  } catch (error) {
-    console.log(error);
-  }
+    if (userCount === 5) {
+        showMatchImg();
+        userCount = 0;
+        }
 };
 
-
-fetchData();
-
-
-nextButton.addEventListener("click", async () => {
-    try {
-      
-      const response = await fetch("https://randomuser.me/api/");
-      const data = await response.json();
-      const person = data.results[0];
+// Functions that handle clicks on buttons
   
-      
-      createCard(person);
-
-    } catch (error) {
-      console.log(error);
-    }
-  });
+like.addEventListener('click', () => {
+    // Add a class to the container for the swipe animation
+    container.classList.add('swipe-right');
   
-  likeButton.addEventListener('click', () => {
-    // Show the match image with a 60% chance
-    const showMatch = Math.random() < 0.6;
-    if (showMatch) {
-      matchElement.classList.add('show');
-      setTimeout(() => {
-        matchElement.classList.remove('show');
-        matchElement.classList.add('hide');
-        setTimeout(() => {
-          matchElement.classList.remove('hide');
-          
-          fetchData();
-        }, 500);
-      }, 2000);
-    } else {
-      
-      fetchData();
-    }
+    // Wait for the animation to complete before removing the class and transitioning to the next user
+    setTimeout(() => {
+      container.classList.remove('swipe-right');
+      user();
+      resetMatchImgStyle();
+    }, 500); // Adjust the timeout based on your animation duration
   });
   
   
+dislike.addEventListener('click', () => {
+    // Add a class to the container for the swipe animation
+    container.classList.add('swipe-left');
   
-  
-  
+    // Wait for the animation to complete before removing the class and transitioning to the next user
+    setTimeout(() => {
+      container.classList.remove('swipe-left');
+      user();
+      resetMatchImgStyle(); // Reset matchImgStyle after loading the new user
+    }, 500); // Adjust the timeout based on your animation duration
 
+    // Reset superLikeCount to prevent showMatchImg from being called
+    superLikeCount = 0;
+  });
+    
+  let superLikeCount = 0;
+
+superLike.addEventListener('click', () => {
+    user();
+    checkShowMatchImg();
+  });
+
+rewind.addEventListener( 'click', ()=> {
+    if (userDataArray.length > 1) {
+        userDataArray.pop();
+    
+    // Use the previous user data
+    const previousUserData = userDataArray[userDataArray.length - 1];
+    img.src = previousUserData.picture.large;
+    name.textContent = `${previousUserData.name.first} ${previousUserData.name.last}`;
+    age.textContent = `Age: ${previousUserData.dob.age}`;
+    from.textContent = `From: ${previousUserData.location.city}, ${previousUserData.location.country}`;
+
+    console.log(previousUserData);
+    }
+});
+
+function showMatchImg() {
+    matchImg.style.display = 'block';
+    updateMatchesCount();
+  
+    setTimeout(() => {
+      matchImg.style.display = 'none';
+      resetMatchImgStyle();
+    }, 2000);
+  }
+
+  function resetMatchImgStyle() {
+    matchImg.style.opacity = 0;
+    matchImg.style.transform = 'translate(-50%, -50%) scale(0.8)';
+  }
+
+  function updateMatchesCount() {
+    matchesCount++;
+    matchCounter.textContent = matchesCount;
+  
+    // Add the jump-animation class to the entire matches-counter div
+    document.getElementById('tinder-icon').classList.add('jump-animation');
+  
+    // After the animation duration, remove the class
+    setTimeout(() => {
+        document.getElementById('tinder-icon').classList.remove('jump-animation');
+      }, 700); // Adjust the timeout based on your animation duration  
+    }
+  
+    function checkShowMatchImg() {
+        if (superLikeCount === 5) {
+          showMatchImg();
+          superLikeCount = 0;
+        }
+      }

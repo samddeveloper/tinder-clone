@@ -5,31 +5,51 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
     <title>Tinder ❤️</title>
   </head>
   <body>
     <div class="container">
-    <div class="card-container">
-      <header>
-        <img class="tinder-icon" src="images/icons8-tinder-48.png" alt="tinder-icon">
-        <img class="tinder-logo"  src="images/pngegg.png" alt="tinder-logo">
-      </header>
-      <div class="img-container"></div>
-      <div class="text-container"></div>
-      <div class="button">
-      <button class="return"><img src="images/pngaaa.com-8396131.png" alt="return"></button>  
-      <button class="next"><img src="images/pngaaa.com-1801917.png" alt="next"></button>
-      <button class="like"><img src="images/pngaaa.com-1801985.png" alt="like"></button>
-      <button class="superlike"><img src="images/pngaaa.com-1801943.png" alt="superlike"></button>
+      <div class="card-container">
+        <header>
+          <img
+            class="tinder-icon"
+            src="images/icons8-tinder-48.png"
+            alt="tinder-icon"
+          />
+          <img class="tinder-logo" src="images/pngegg.png" alt="tinder-logo" />
+        </header>
+        <div class="img-container"><img id="profil" src="" alt="profil"></div>
+        <div class="text-container">
+          <h2 id="name"></h2>
+          <p id="age"></p>
+          <p id="from" ></p>
+        </div>
+        <div class="buttons">
+          <button id="heart" ><img id="icon" src="/images/heart.png" alt="heart" ></button>
+          <button id="x" ><img id="icon" src="/images/x.png" alt="x" ></button>
+          <button id="star"><img id="icon" src="/images/star.png" alt="star"></button>
+          <button id="repeat"><img id="icon" src="/images/repeat.png" alt="repeat" ></button>
+
+        </div>
       </div>
+      <div class="match" style="display:none;">
+        <img src="/images/match.png" alt="It's a match!">
+      </div>
+      <footer>
+        <div class="matches-counter">
+          <img id="tinder-icon" src="/images/icons8-tinder-48.png" alt="Tinder Icon">
+          <span id="matches-count">0</span>
+        </div>
+      </footer>
     </div>
-    <div class="match">
-      <img src="images/[CITYPNG.COM]It's A Match Tinder Text - 620x304.png" alt="match">
-    </div>
-  </div>
   </body>
   <script src="./script.js"></script>
 </html>
+
+
